@@ -12,3 +12,6 @@
 - ejs: it's  a type of file which is similar to html but can render data dyanmically.
 - error handling: we can use error handling using error handling function" (throw Error());"
 - static files: 'app.use(express.static('./public))' this code sets the "public folder", where it can find the static files(html,css,js,images);
+- "const userSchema = new mongoose.Schema({" use to create a structure of data,like type,required etc. so that the proper data is processed. 
+- MVCR - (model, view, controller, Routes) it is used to manage the code properly.
+ we create route handling files. model for creating a structure. controller to perform certain task using the model. 

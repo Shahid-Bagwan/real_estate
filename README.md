@@ -15,3 +15,4 @@
 - "const userSchema = new mongoose.Schema({" use to create a structure of data,like type,required etc. so that the proper data is processed. 
 - MVCR - (model, view, controller, Routes) it is used to manage the code properly.
  we create route handling files. model for creating a structure. controller to perform certain task using the model. 
+ - encrypting password (bcrypt pkg).

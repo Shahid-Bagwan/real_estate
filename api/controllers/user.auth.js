@@ -1,7 +1,7 @@
 import User from '../models/user.models.js'
 import bcrypt from 'bcrypt';
 
-const signup = async (req,res) => {
+const signup = async (req,res,next) => {
     const {username, email, password} = req.body;
     
     // Generate a random salt.
@@ -13,7 +13,7 @@ const signup = async (req,res) => {
         await newUser.save();
         res.status(201).json('user created sucessfully');
     }catch(err){
-        res.status(500).json(err.message);
+        next(err);
     }
 }
 

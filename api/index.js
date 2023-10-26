@@ -16,6 +16,16 @@ mongoose.connect(process.env.MONGO).then(() => {
 app.use('/api/user', userRouter);
 app.use('/api/auth', userAuth);
 
+app.use((error, req, res, next) => {
+    const status = error.statusCode || 500;
+    const message = error.message;
+    return res.status(status).json({ 
+        success: false,
+        status: status,
+        message: error.message 
+    });
+});
+
 app.listen(3000, () => {
     console.log("Server running on port 3000ss");
 });

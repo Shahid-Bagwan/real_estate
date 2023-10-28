@@ -17,7 +17,7 @@ app.use(express.json());
 // Use the cors middleware to enable CORS
 app.use(cors());
 app.listen(3000, () => {
-    console.log("Server running on port 3000ss");
+    console.log("Server running on port 3000");
 });
 app.use('/api/user', userRouter);
 app.use('/api/auth', userAuth);

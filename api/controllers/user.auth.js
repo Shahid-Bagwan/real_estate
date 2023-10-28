@@ -31,13 +31,11 @@ const signin = async (req, res, next) => {
     if (!validpassword) return next(errorHandler(400, "invalid password"));
     const token = jwt.sign({ id: validuser._id }, process.env.Secretkey);
     const { password, ...rest } = validuser._doc; // _doc is the document object
-    console.log(token);
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
     });
-    console.log("cookie set");
     res.status(200).json(rest);
   } catch (err) {
     next(errorHandler(500, err.message));

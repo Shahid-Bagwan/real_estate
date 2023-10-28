@@ -16,3 +16,5 @@
 - MVCR - (model, view, controller, Routes) it is used to manage the code properly.
  we create route handling files. model for creating a structure. controller to perform certain task using the model. 
  - encrypting password (bcrypt pkg).
+ - jwt(jsonwebtoken) it is used create an auth token
+ - cookie

@@ -25,3 +25,4 @@
  - useSelector is used to get data from the store. it uses slice(reducer) to do so.
  - useDispatch is used to modify/perform action on data from the store. it uses slice(reducer) to do so.
  - payload & state are the parameters we get. we can use it to our needs.
+ - redux persist is use to save the data to local storage.

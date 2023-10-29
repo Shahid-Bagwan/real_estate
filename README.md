@@ -18,3 +18,10 @@
  - encrypting password (bcrypt pkg).
  - jwt(jsonwebtoken) it is used create an auth token
  - cookie
+ - redux = redux is used for state management. some important concepts {store,reducers,slice,useSelector,useDispatch, payload,state}.
+ - store is a common store house from where every component can get access.
+ - reducers are the functions which are use to modify states.
+ - slice is the term for the funcs.
+ - useSelector is used to get data from the store. it uses slice(reducer) to do so.
+ - useDispatch is used to modify/perform action on data from the store. it uses slice(reducer) to do so.
+ - payload & state are the parameters we get. we can use it to our needs.

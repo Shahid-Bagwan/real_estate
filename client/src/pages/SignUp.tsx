@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import Gauth from '../components/Gauth';
 
 export default function SignUp() {
   const [formdata, setFormData] = useState({});
@@ -76,6 +77,7 @@ export default function SignUp() {
         >
           {loading ? 'Loading...' : 'Sign Up'}
         </button>
+        <Gauth />
       </form>
       <div className='flex gap-2 mt-5'>
         <p>Have an account?</p>

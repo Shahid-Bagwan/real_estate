@@ -27,8 +27,26 @@ const signin = async (req, res, next) => {
     const validpassword = bcrypt.compareSync(
       req.body.password,
       validuser.password
-      );
-      if (!validpassword) return next(errorHandler(400, "invalid password"));
+    );
+    if (!validpassword) return next(errorHandler(400, "invalid password"));
+    const token = jwt.sign({ id: validuser._id }, process.env.Secretkey);
+    const { password, ...rest } = validuser._doc; // _doc is the document object
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+    res.status(200).json(rest);
+  } catch (err) {
+    next(errorHandler(500, err.message));
+  }
+};
+
+const googleAuth = async (req, res, next) => {
+  const { name, email, imageurl } = req.body;
+  try {
+    const validuser = await User.findOne({ email });
+    if (validuser) {
       const token = jwt.sign({ id: validuser._id }, process.env.Secretkey);
       const { password, ...rest } = validuser._doc; // _doc is the document object
       res.cookie("token", token, {
@@ -37,9 +55,31 @@ const signin = async (req, res, next) => {
         sameSite: "none",
       });
       res.status(200).json(rest);
+    } else {
+      const newpassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      // Generate a random salt.
+      const salt = bcrypt.genSaltSync(10);
+      const hashpassword = await bcrypt.hashSync(newpassword, salt);
+      const newUser = new User({
+        username: name,
+        email,
+        password: hashpassword,
+        profilepic: imageurl,
+      });
+      await newUser.save();
+      const token = jwt.sign({ id: newUser._id }, process.env.Secretkey);
+      const { password, ...rest } = newUser._doc; // _doc is the document object
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      });
+      res.status(200).json(rest);
+    }
   } catch (err) {
-    next(errorHandler(500, err.message));
+    next(err);
   }
 };
-
-export { signup, signin };
+export { signup, signin, googleAuth };

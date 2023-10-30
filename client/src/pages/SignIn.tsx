@@ -6,6 +6,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
+import Gauth from "../components/Gauth";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -73,6 +74,7 @@ const SignIn = () => {
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
+        <Gauth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Dont have an account?</p>

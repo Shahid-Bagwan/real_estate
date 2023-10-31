@@ -1,12 +1,11 @@
 import { useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import { getDownloadURL, ref, uploadBytes, getStorage, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, ref, getStorage, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
 export default function Profile() {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
   const fileRef = useRef<HTMLInputElement>(null);
   const [profilepic, setProfilepic] = useState(undefined);
   const [filepercent, setFilepercent] = useState(0);
@@ -16,16 +15,15 @@ export default function Profile() {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   useEffect(() => {
-    console.log(profilepic);
    if (profilepic) {
 
       handleFileUpload(profilepic);
     }
   }, [profilepic]);
-
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const handleFileUpload = (profilepic) => {
     const storage = getStorage(app);
-    console.log(storage);
     const filename = Date.now() + profilepic;
     const reference = ref(storage, `profilepic/${filename}`);
     const uploadTask = uploadBytesResumable(reference, profilepic);
@@ -36,20 +34,17 @@ export default function Profile() {
       (snapshot: { bytesTransferred: number; totalBytes: number; }) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setFilepercent(Math.round(progress));
-        console.log("Upload is " + progress + "% done");
       },
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (error) => {
-        console.log(error);
         setFileUploadError(true);
       },
       () => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
           setFormData({ ...formData, profilepic: downloadURL });
         });
       }
@@ -59,15 +54,17 @@ export default function Profile() {
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
       <form className="flex flex-col gap-4">
-        {/*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/*  @ts-ignore */}
         <input type="file" ref={fileRef} hidden accept="image/*" 
         onChange={(e) =>{
+          {/*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/*  @ts-ignore */}
           setProfilepic(e.target.files[0]) 
         } 
         } />
         <img
           onClick={() => fileRef.current?.click()}
+          /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+          /*  @ts-ignore */
           src={formData.profilepic ||currentUser.profilepic}
           alt="profile"
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"

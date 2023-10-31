@@ -1,6 +1,8 @@
-export default function errorHandler (status, message) {
+const errorHandler = (status, message) => {
     const error = new Error(message);
     error.statusCode = status;
     error.message = message;
-    return { error };
+    return  error ;
 };
+
+export default errorHandler;

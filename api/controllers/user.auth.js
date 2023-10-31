@@ -2,7 +2,6 @@ import User from "../models/user.models.js";
 import bcrypt from "bcrypt";
 import errorHandler from "../utils/error.js";
 import jwt from "jsonwebtoken";
-
 const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
 
@@ -31,10 +30,8 @@ const signin = async (req, res, next) => {
     if (!validpassword) return next(errorHandler(400, "invalid password"));
     const token = jwt.sign({ id: validuser._id }, process.env.Secretkey);
     const { password, ...rest } = validuser._doc; // _doc is the document object
-    res.cookie("token", token, {
+    res.cookie("access_token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
     });
     res.status(200).json(rest);
   } catch (err) {
@@ -44,15 +41,16 @@ const signin = async (req, res, next) => {
 
 const googleAuth = async (req, res, next) => {
   const { name, email, imageurl } = req.body;
+  console.log("hey from top")
   try {
+    console.log("hey from top")
     const validuser = await User.findOne({ email });
+    console.log(validuser);
     if (validuser) {
       const token = jwt.sign({ id: validuser._id }, process.env.Secretkey);
       const { password, ...rest } = validuser._doc; // _doc is the document object
-      res.cookie("token", token, {
+      res.cookie("access_token", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
       });
       res.status(200).json(rest);
     } else {
@@ -71,10 +69,9 @@ const googleAuth = async (req, res, next) => {
       await newUser.save();
       const token = jwt.sign({ id: newUser._id }, process.env.Secretkey);
       const { password, ...rest } = newUser._doc; // _doc is the document object
-      res.cookie("token", token, {
+      console.log("hey")
+      res.cookie("access_token", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
       });
       res.status(200).json(rest);
     }
@@ -82,4 +79,4 @@ const googleAuth = async (req, res, next) => {
     next(err);
   }
 };
-export { signup, signin, googleAuth };
+export { signup, signin, googleAuth};

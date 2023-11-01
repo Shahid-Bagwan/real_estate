@@ -41,11 +41,8 @@ const signin = async (req, res, next) => {
 
 const googleAuth = async (req, res, next) => {
   const { name, email, imageurl } = req.body;
-  console.log("hey from top")
   try {
-    console.log("hey from top")
     const validuser = await User.findOne({ email });
-    console.log(validuser);
     if (validuser) {
       const token = jwt.sign({ id: validuser._id }, process.env.Secretkey);
       const { password, ...rest } = validuser._doc; // _doc is the document object
@@ -69,7 +66,6 @@ const googleAuth = async (req, res, next) => {
       await newUser.save();
       const token = jwt.sign({ id: newUser._id }, process.env.Secretkey);
       const { password, ...rest } = newUser._doc; // _doc is the document object
-      console.log("hey")
       res.cookie("access_token", token, {
         httpOnly: true,
       });

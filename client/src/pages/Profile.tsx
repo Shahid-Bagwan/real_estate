@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { getDownloadURL, ref, getStorage, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
-import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserFailure, deleteUserStart,deleteUserSuccess } from '../redux/user/userSlice'
+import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserFailure, deleteUserStart,deleteUserSuccess,signOutUserFailure, signOutUserStart, signOutUserSuccess } from '../redux/user/userSlice'
 
 export default function Profile() {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -97,7 +97,26 @@ export default function Profile() {
       }
       dispatch(deleteUserSuccess(data));
     } catch (error) {
+       /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+          /*  @ts-ignore */
       dispatch(deleteUserFailure(error.meesage));
+    }
+  }
+
+  const signOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const signOutUser = await fetch(`/api/user/signout`);
+      const data = await signOutUser.json();
+      if(data.status === false){
+        dispatch(signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess(data));
+    } catch (error) {
+       /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+          /*  @ts-ignore */
+      dispatch(signOutUserFailure(error.meesage));
     }
   }
   return (
@@ -162,7 +181,7 @@ export default function Profile() {
       </form>
       <div className="flex justify-between mt-5">
         <span onClick={deleteUser} className="text-red-700 cursor-pointer">Delete account</span>
-        <span className="text-red-700 cursor-pointer">Sign out</span>
+        <span onClick={signOut} className="text-red-700 cursor-pointer">Sign out</span>
       </div>
       <p className="text-red-600">{error ? `${error.message}` : ""}</p>
       <p className="text-green-700">{updateSuccess ? "Update Successfully" : ""}</p>

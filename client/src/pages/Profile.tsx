@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { getDownloadURL, ref, getStorage, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
 import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserFailure, deleteUserStart,deleteUserSuccess,signOutUserFailure, signOutUserStart, signOutUserSuccess } from '../redux/user/userSlice'
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -178,6 +179,9 @@ export default function Profile() {
         <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80">
           {loading ? "Loading..." : "Update"}
         </button>
+        <Link className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95' to={"/create-listing"}>
+          Create Listing
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span onClick={deleteUser} className="text-red-700 cursor-pointer">Delete account</span>

@@ -38,7 +38,10 @@ const Header = () => {
           </Link>
           <Link to="/sign-in">
             {currentUser ? (
-              <img className='rounded-full h-7 w-7 object-cover' src={currentUser.profilePic} alt="profile pic"/>
+              <Link to="/profile">
+                
+                <img className='rounded-full h-7 w-7 object-cover' src={currentUser.profilePic} alt="profile pic"/>
+                </Link>
             ):(
               <li className=" sm:inline text-slate-600 hover:underline">
               Sign In

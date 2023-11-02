@@ -4,6 +4,7 @@ import { getDownloadURL, ref, getStorage, uploadBytesResumable } from "firebase/
 import { app } from "../firebase";
 import { updateUserFailure, updateUserStart, updateUserSuccess, deleteUserFailure, deleteUserStart,deleteUserSuccess,signOutUserFailure, signOutUserStart, signOutUserSuccess } from '../redux/user/userSlice'
 import { Link } from 'react-router-dom';
+import { set } from "mongoose";
 
 export default function Profile() {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -16,6 +17,9 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const[ updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingError, setShowListingError] = useState(false);
+  const [listingData, setListingData] = useState([]);
+  const[deleteListingError, setDeleteListingError] = useState(false);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   useEffect(() => {
@@ -120,6 +124,36 @@ export default function Profile() {
       dispatch(signOutUserFailure(error.meesage));
     }
   }
+
+  const showlistings = async () => {
+    try{
+      setShowListingError(false);
+      const data = await fetch(`/api/user/listings/${currentUser._id}`);
+      const listingData = await data.json();
+      if(listingData.success === false){
+        setShowListingError(true);
+        return;
+      }
+      setListingData(listingData);
+    }catch(error){
+      setShowListingError(true);
+    }
+  }
+  const deletelisting = async (id) => {
+    try {
+      setDeleteListingError(false);
+      const data = await fetch(`/api/listing/delete/${id}`, 
+      { method: 'DELETE' });
+      const deletedListing = await data.json();
+      if (deletedListing.success === false) {
+        setDeleteListingError(true);
+        return;
+      }
+      setListingData(listingData.filter((listing) => listing._id !== id));
+    } catch (error) {
+      setDeleteListingError(true);
+    }
+  }
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -189,6 +223,41 @@ export default function Profile() {
       </div>
       <p className="text-red-600">{error ? `${error.message}` : ""}</p>
       <p className="text-green-700">{updateSuccess ? "Update Successfully" : ""}</p>
+      <button onClick={showlistings} className='text-green-700 w-full'>
+        Show Listings
+      </button>
+      <p  className="text-green-700 w-full">{showListingError ? "Error showing listings" : ""}</p>
+      {listingData &&
+        listingData.length > 0 &&
+        <div className="flex flex-col gap-4">
+          <h1 className='text-center mt-7 text-2xl font-semibold'>Your Listings</h1>
+          {listingData.map((listing) => (
+            <div
+              key={listing._id}
+              className='border rounded-lg p-3 flex justify-between items-center gap-4'
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  alt='listing cover'
+                  className='h-16 w-16 object-contain'
+                />
+              </Link>
+              <Link
+                className='text-slate-700 font-semibold  hover:underline truncate flex-1'
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+
+              <div className='flex flex-col item-center'>
+                <button onClick={() => deletelisting(listing._id)} className='text-red-700 uppercase'>Delete</button>
+                <button className='text-green-700 uppercase'>Edit</button>
+              </div>
+            </div>
+          ))}
+        </div>}
+      <p className="text-red-600">{deleteListingError ? "Error deleting listing" : ""}</p>
     </div>
   );
 }

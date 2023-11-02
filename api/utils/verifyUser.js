@@ -4,10 +4,8 @@ import  errorHandler  from '../utils/error.js';
 export const verifyToken = (req, res, next) => {
   const tokenFromHeader = req.headers.access_token; 
   const tokenFromCookie = req.cookies.access_token; 
-
   const token = tokenFromHeader || tokenFromCookie; 
-  console.log("req.cookies",req.headers.access_token)
-  console.log("token",token);
+  console.log(token);
   if (!token) return next(errorHandler(401, 'Unauthorized'));
 
   jwt.verify(token, process.env.Secretkey, (err, user) => {

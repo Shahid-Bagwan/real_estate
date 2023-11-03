@@ -27,3 +27,4 @@
  - payload & state are the parameters we get. we can use it to our needs.
  - redux persist is use to save the data to local storage.
  - ### never set the key and value with same word( ex : verifyuser)
+ - useParams() a feature in redux so that we can get the url parameter.

@@ -35,3 +35,12 @@ export const updatelisting = async (req, res, next) => {
     errorHandler(error);
   }
 }
+
+export const getListing = async (req, res, next) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    res.status(200).json(listing);
+  } catch (error) {
+    next(error);
+  }
+}

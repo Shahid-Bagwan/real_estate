@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp'
 import Header from './components/Header.tsx'
 import PrivateProfile from './components/PrivateRoute.tsx'
 import CreateListing from './pages/CreateListing';
+import UpdateListing from './pages/UpdateListing.tsx'
 const App = () => {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ const App = () => {
       <Route  element={<PrivateProfile/>}>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/create-listing' element={<CreateListing />} />
+        <Route path='/update-listing/:id' element={<UpdateListing />} />
       </Route>
     </Routes>
     </BrowserRouter>

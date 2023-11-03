@@ -123,6 +123,7 @@ export default function CreateListing() {
       setLoading(true);
 
       setError("");
+      console.log("am i here")
       const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
@@ -137,6 +138,7 @@ export default function CreateListing() {
       setLoading(false);
       if (data.success === false) {
         setError(data.message);
+        console.log("am i heresss")
       }
       navigate(`/listing/${data._id}`);
     } catch (error) {

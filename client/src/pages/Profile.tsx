@@ -135,6 +135,7 @@ export default function Profile() {
         return;
       }
       setListingData(listingData);
+      console.log(listingData);
     }catch(error){
       setShowListingError(true);
     }

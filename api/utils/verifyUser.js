@@ -5,7 +5,6 @@ export const verifyToken = (req, res, next) => {
   const tokenFromHeader = req.headers.access_token; 
   const tokenFromCookie = req.cookies.access_token; 
   const token = tokenFromHeader || tokenFromCookie; 
-  console.log(token);
   if (!token) return next(errorHandler(401, 'Unauthorized'));
 
   jwt.verify(token, process.env.Secretkey, (err, user) => {

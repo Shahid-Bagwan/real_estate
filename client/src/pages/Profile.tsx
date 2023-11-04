@@ -21,7 +21,7 @@ import {
 import { Link } from "react-router-dom";
 
 export default function Profile() {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //eslint-disable-next-line
   // @ts-ignore
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -34,15 +34,13 @@ export default function Profile() {
   const [showListingError, setShowListingError] = useState(false);
   const [listingData, setListingData] = useState([]);
   const [deleteListingError, setDeleteListingError] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+
   useEffect(() => {
     if (profilepic) {
       handleFileUpload(profilepic);
     }
   }, [profilepic]);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+
   const handleFileUpload = (profilepic) => {
     const storage = getStorage(app);
     const filename = Date.now() + profilepic;
@@ -57,28 +55,23 @@ export default function Profile() {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setFilepercent(Math.round(progress));
       },
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (error) => {
         setFileUploadError(true);
       },
       () => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setFormData({ ...formData, profilePic: downloadURL });
         });
       }
     );
   };
-  /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-  /*  @ts-ignore */
+
   const handleFormData = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-  /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-  /*  @ts-ignore */
+
   const formSubmit = async (e) => {
     e.preventDefault();
     dispatch(updateUserStart());
@@ -98,8 +91,6 @@ export default function Profile() {
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
     } catch (error) {
-      /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-      /*  @ts-ignore */
       dispatch(updateUserFailure(error.message));
     }
   };
@@ -117,8 +108,6 @@ export default function Profile() {
       }
       dispatch(deleteUserSuccess(data));
     } catch (error) {
-      /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-      /*  @ts-ignore */
       dispatch(deleteUserFailure(error.meesage));
     }
   };
@@ -134,8 +123,6 @@ export default function Profile() {
       }
       dispatch(signOutUserSuccess(data));
     } catch (error) {
-      /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-      /*  @ts-ignore */
       dispatch(signOutUserFailure(error.meesage));
     }
   };
@@ -150,13 +137,11 @@ export default function Profile() {
         return;
       }
       setListingData(listingData);
-      console.log(listingData);
     } catch (error) {
       setShowListingError(true);
     }
   };
-  /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-  /*  @ts-ignore */
+
   const deletelisting = async (id) => {
     try {
       setDeleteListingError(false);
@@ -168,8 +153,7 @@ export default function Profile() {
         setDeleteListingError(true);
         return;
       }
-      /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-      /*  @ts-ignore */
+
       setListingData(listingData.filter((listing) => listing._id !== id));
     } catch (error) {
       setDeleteListingError(true);
@@ -185,9 +169,6 @@ export default function Profile() {
           hidden
           accept="image/*"
           onChange={(e) => {
-            /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-            /*  @ts-ignore */
-
             setProfilepic(e.target.files[0]);
           }}
         />
@@ -277,17 +258,11 @@ export default function Profile() {
           </h1>
           {listingData.map((listing) => (
             <div
-              /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-              /*  @ts-ignore */
               key={listing._id}
               className="border rounded-lg p-3 flex justify-between items-center gap-4"
             >
-              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment  */}
-              {/* @ts-ignore  */}
               <Link to={`/listing/${listing._id}`}>
                 <img
-                  /*  eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                  /*  @ts-ignore */
                   src={listing.imageUrls[0]}
                   alt="listing cover"
                   className="h-16 w-16 object-contain"
@@ -295,26 +270,19 @@ export default function Profile() {
               </Link>
               <Link
                 className="text-slate-700 font-semibold  hover:underline truncate flex-1"
-                //  eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //  @ts-ignore
                 to={`/listing/${listing._id}`}
               >
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment  */}
-                {/* @ts-ignore  */}
                 <p>{listing.name}</p>
               </Link>
 
               <div className="flex flex-col item-center">
                 <button
-                  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment  */
-                  /* @ts-ignore  */
                   onClick={() => deletelisting(listing._id)}
                   className="text-red-700 uppercase"
                 >
                   Delete
                 </button>
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment  */}
-                {/* @ts-ignore  */}
+
                 <Link to={`/update-listing/${listing._id}`}>
                   <button className="text-green-700 uppercase">Edit</button>
                 </Link>

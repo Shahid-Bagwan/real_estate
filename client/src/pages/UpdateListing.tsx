@@ -8,13 +8,11 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
-import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 export default function UpdateListing() {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const { id } = useParams();
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
+  // @ts-ignore
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [files, setFiles] = React.useState<FileList | null>(null);
@@ -39,18 +37,16 @@ export default function UpdateListing() {
 
   useEffect(() => {
     const updatingListing = async () => {
-        const res = await fetch(`/api/listing/get/${id}`);
-        const data = await res.json();
-        if(data.success === false){
-            setError(data.message)
-        }
-        setFormData(data);
-    }
-  updatingListing()
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  
+      const res = await fetch(`/api/listing/get/${id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setError(data.message);
+      }
+      setFormData(data);
+    };
+    updatingListing();
+  }, []);
+
   const handleImageSubmit = async () => {
     if (!files) return;
     if (files?.length > 0 && files?.length + formData.imageUrls.length <= 6) {
@@ -66,8 +62,7 @@ export default function UpdateListing() {
 
           setFormData({
             ...formData,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
+
             imageUrls: formData.imageUrls.concat(urls),
           });
         })
@@ -81,8 +76,7 @@ export default function UpdateListing() {
       setUploading(false);
     }
   };
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+
   const storeImage = async (file) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
@@ -92,10 +86,9 @@ export default function UpdateListing() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log(progress);
+          console.log(progress);
         },
         (error) => {
           reject(error);
@@ -142,7 +135,6 @@ export default function UpdateListing() {
       setLoading(true);
 
       setError("");
-      console.log("am i here")
       const res = await fetch(`/api/listing/update/${id}`, {
         method: "POST",
         headers: {
@@ -157,12 +149,9 @@ export default function UpdateListing() {
       setLoading(false);
       if (data.success === false) {
         setError(data.message);
-        console.log("am i heresss")
       }
       navigate(`/listing/${data._id}`);
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       setError(error.message);
       setLoading(false);
     }

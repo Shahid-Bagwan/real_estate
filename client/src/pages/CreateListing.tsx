@@ -48,8 +48,7 @@ export default function CreateListing() {
 
           setFormData({
             ...formData,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
+
             imageUrls: formData.imageUrls.concat(urls),
           });
         })
@@ -63,8 +62,7 @@ export default function CreateListing() {
       setUploading(false);
     }
   };
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+
   const storeImage = async (file) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
@@ -123,7 +121,6 @@ export default function CreateListing() {
       setLoading(true);
 
       setError("");
-      console.log("am i here")
       const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
@@ -138,12 +135,9 @@ export default function CreateListing() {
       setLoading(false);
       if (data.success === false) {
         setError(data.message);
-        console.log("am i heresss")
       }
       navigate(`/listing/${data._id}`);
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       setError(error.message);
       setLoading(false);
     }
@@ -275,8 +269,8 @@ export default function CreateListing() {
               />
               <div className="flex flex-col items-center">
                 <p>Regular price</p>
-                {formData.type === 'rent' && (
-                  <span className='text-xs'>($ / month)</span>
+                {formData.type === "rent" && (
+                  <span className="text-xs">($ / month)</span>
                 )}
               </div>
             </div>
@@ -294,8 +288,8 @@ export default function CreateListing() {
                 />
                 <div className="flex flex-col items-center">
                   <p>Discounted price</p>
-                  {formData.type === 'rent' && (
-                    <span className='text-xs'>($ / month)</span>
+                  {formData.type === "rent" && (
+                    <span className="text-xs">($ / month)</span>
                   )}
                 </div>
               </div>

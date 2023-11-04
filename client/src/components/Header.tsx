@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import{ useSelector} from 'react-redux';
+import { useSelector } from "react-redux";
 const Header = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-  const{currentUser} = useSelector((state) => state.user);
+  // @ts-ignore
+  const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = React.useState("");
   const navigate = useNavigate();
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -13,13 +13,12 @@ const Header = () => {
     const usp = new URLSearchParams(window.location.search);
     usp.set("searchTerm", searchTerm);
     const searchQuery = usp.toString();
-    console.log(searchTerm);
     navigate(`/search?${searchQuery}`);
-  }
+  };
   useEffect(() => {
     const usp = new URLSearchParams(location.search);
     setSearchTerm(usp.get("searchTerm") || "");
-  },[ location.search]);
+  }, [location.search]);
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
@@ -29,7 +28,10 @@ const Header = () => {
             <span className="text-slate-700">Estate</span>
           </h1>
         </Link>
-        <form onSubmit={handleSearch} className="bg-slate-100 p-3 rounded-lg flex items-center">
+        <form
+          onSubmit={handleSearch}
+          className="bg-slate-100 p-3 rounded-lg flex items-center"
+        >
           <input
             type="text"
             placeholder="Find.."
@@ -39,8 +41,8 @@ const Header = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button >
-          <FaSearch className="text-slate-600" />
+          <button>
+            <FaSearch className="text-slate-600" />
           </button>
         </form>
         <ul className="flex gap-4">
@@ -57,13 +59,16 @@ const Header = () => {
           <Link to="/sign-in">
             {currentUser ? (
               <Link to="/profile">
-                
-                <img className='rounded-full h-7 w-7 object-cover' src={currentUser.profilePic} alt="profile pic"/>
-                </Link>
-            ):(
+                <img
+                  className="rounded-full h-7 w-7 object-cover"
+                  src={currentUser.profilePic}
+                  alt="profile pic"
+                />
+              </Link>
+            ) : (
               <li className=" sm:inline text-slate-600 hover:underline">
-              Sign In
-            </li>
+                Sign In
+              </li>
             )}
           </Link>
         </ul>

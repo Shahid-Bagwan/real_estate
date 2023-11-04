@@ -28,4 +28,5 @@
  - redux persist is use to save the data to local storage.
  - ### never set the key and value with same word( ex : verifyuser)
  - useParams() a feature in redux so that we can get the url parameter.
- - swiper
+ - swiper its a pkg used to show a slider of images/videos etc
+ - line clamp = it's a pkg from tailwind to show number of lines and then truncate.

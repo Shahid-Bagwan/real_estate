@@ -303,7 +303,7 @@ export default function UpdateListing() {
                   type="number"
                   id="discountPrice"
                   min="1"
-                  max="100000"
+                  max="100000000"
                   required
                   className="p-3 border border-gray-300 rounded-lg"
                   onChange={handleChange}

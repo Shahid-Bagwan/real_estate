@@ -59,6 +59,7 @@ export default function Profile() {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (error) => {
         setFileUploadError(true);
+        console.log(error);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {

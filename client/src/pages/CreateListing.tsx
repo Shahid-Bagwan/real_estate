@@ -75,6 +75,7 @@ export default function CreateListing() {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(progress)
         },
         (error) => {
           reject(error);
@@ -89,7 +90,7 @@ export default function CreateListing() {
   };
 
   const deleteImage = (index: number) => {
-    const newImageUrls = formData.imageUrls.filter((url, i) => i !== index);
+    const newImageUrls = formData.imageUrls.filter((_url, i) => i !== index);
     setFormData({ ...formData, imageUrls: newImageUrls });
   };
 

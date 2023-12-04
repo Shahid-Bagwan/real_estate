@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://dull-pear-yak-wear.cyclic.app',
+        target: 'http://localhost:3000',
         secure: false,
       },
     },

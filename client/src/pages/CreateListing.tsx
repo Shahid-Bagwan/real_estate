@@ -10,9 +10,17 @@ import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 export default function CreateListing() {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const { currentUser } = useSelector((state) => state.user);
+  interface RootState {
+    user: {
+      currentUser: {
+        name: string;
+        age: number;
+        email: string;
+        _id: string;
+      };
+    };
+  }
+  const { currentUser } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const [files, setFiles] = React.useState<FileList | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -20,7 +28,7 @@ export default function CreateListing() {
   const [imageError, setImageError] = useState("");
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    imageUrls: [],
+    imageUrls: [] as string[],
     name: "",
     description: "",
     address: "",
@@ -33,6 +41,7 @@ export default function CreateListing() {
     parking: false,
     furnished: false,
   });
+ 
   const handleImageSubmit = async () => {
     if (!files) return;
     if (files?.length > 0 && files?.length + formData.imageUrls.length <= 6) {
@@ -43,7 +52,7 @@ export default function CreateListing() {
         promises.push(storeImage(files[i]));
       }
       Promise.all(promises)
-        .then((urls) => {
+        .then((urls ) => {
           setUploading(false);
 
           setFormData({
@@ -62,8 +71,10 @@ export default function CreateListing() {
       setUploading(false);
     }
   };
-
-  const storeImage = async (file) => {
+type File = Blob & {
+  name: string;
+}
+  const storeImage = async (file:File ) => {
     return new Promise((resolve, reject) => {
       const storage = getStorage(app);
       const filename = Date.now() + file.name;
@@ -72,7 +83,6 @@ export default function CreateListing() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log(progress)
@@ -138,7 +148,8 @@ export default function CreateListing() {
         setError(data.message);
       }
       navigate(`/listing/${data._id}`);
-    } catch (error) {
+    } catch (error ) {
+      if (error instanceof Error)
       setError(error.message);
       setLoading(false);
     }

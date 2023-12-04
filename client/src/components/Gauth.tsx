@@ -30,6 +30,7 @@ export default function Gauth() {
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
+      console.log(error);
       console.log("the authentification failed");
     }
   };

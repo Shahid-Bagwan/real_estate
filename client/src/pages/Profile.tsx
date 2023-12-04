@@ -77,13 +77,16 @@ export default function Profile() {
     e.preventDefault();
     dispatch(updateUserStart());
     try {
-      const updatedUser = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const updatedUser = await fetch(
+        `https://real-estate-backend-mu.vercel.app/api/user/update/${currentUser._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await updatedUser.json();
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
@@ -99,9 +102,12 @@ export default function Profile() {
   const deleteUser = async () => {
     try {
       dispatch(deleteUserStart());
-      const deletedUser = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method: "DELETE",
-      });
+      const deletedUser = await fetch(
+        `https://real-estate-backend-mu.vercel.app/api/user/delete/${currentUser._id}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await deletedUser.json();
       if (data.status === false) {
         dispatch(deleteUserFailure(data.message));
@@ -116,7 +122,9 @@ export default function Profile() {
   const signOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const signOutUser = await fetch(`/api/auth/signout`);
+      const signOutUser = await fetch(
+        `https://real-estate-backend-mu.vercel.app/api/auth/signout`
+      );
       const data = await signOutUser.json();
       if (data.status === false) {
         dispatch(signOutUserFailure(data.message));
@@ -131,7 +139,9 @@ export default function Profile() {
   const showlistings = async () => {
     try {
       setShowListingError(false);
-      const data = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await fetch(
+        `https://real-estate-backend-mu.vercel.app/api/user/listings/${currentUser._id}`
+      );
       const listingData = await data.json();
       if (listingData.success === false) {
         setShowListingError(true);
@@ -146,9 +156,12 @@ export default function Profile() {
   const deletelisting = async (id) => {
     try {
       setDeleteListingError(false);
-      const data = await fetch(`/api/listing/delete/${id}`, {
-        method: "DELETE",
-      });
+      const data = await fetch(
+        `https://real-estate-backend-mu.vercel.app/api/listing/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       const deletedListing = await data.json();
       if (deletedListing.success === false) {
         setDeleteListingError(true);

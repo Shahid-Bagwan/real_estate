@@ -12,17 +12,20 @@ export default function Gauth() {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
-      const res = await fetch("/api/auth/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: result.user.displayName,
-          email: result.user.email,
-          imageurl: result.user.photoURL,
-        }),
-      });
+      const res = await fetch(
+        "https://real-estate-backend-mu.vercel.app/api/auth/google",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: result.user.displayName,
+            email: result.user.email,
+            imageurl: result.user.photoURL,
+          }),
+        }
+      );
       const data = await res.json();
       dispatch(signInSuccess(data));
       navigate("/");

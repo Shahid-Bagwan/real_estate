@@ -37,7 +37,9 @@ export default function UpdateListing() {
 
   useEffect(() => {
     const updatingListing = async () => {
-      const res = await fetch(`/api/listing/get/${id}`);
+      const res = await fetch(
+        `https://real-estate-backend-mu.vercel.app/api/listing/get/${id}`
+      );
       const data = await res.json();
       if (data.success === false) {
         setError(data.message);
@@ -135,16 +137,19 @@ export default function UpdateListing() {
       setLoading(true);
 
       setError("");
-      const res = await fetch(`/api/listing/update/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          userRef: currentUser._id,
-        }),
-      });
+      const res = await fetch(
+        `https://real-estate-backend-mu.vercel.app/api/listing/update/${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            userRef: currentUser._id,
+          }),
+        }
+      );
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {

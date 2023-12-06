@@ -39,7 +39,7 @@ export default function Gauth() {
       type="button"
       onClick={googleAuth}
     >
-      Continue with google{" "}
+      Continue with google
     </button>
   );
 }
